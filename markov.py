@@ -91,7 +91,7 @@ def make_chains_n(text_string, n):
         ngram = tuple(ngram_list)
         if ngram not in chains: #checks if the bigram is already a key in the chains dictionary
             chains[ngram]=[] #adds it to the dictionary with an empty list of a value, this allows us to add many next-possible-words as we go through
-        chains[ngram].append(list_of_words[i+n])#appends the following word to the list of possible following words associated with that bigram
+        chains[ngram].append(list_of_words[i+n])#appends the following word to the list of possible following words associated with that n-gram
     #for item in chains:
      #   print(item, chains[item])
     return chains
@@ -128,20 +128,26 @@ def make_text_n(chains):
     """Return text from chains."""
     first_ngram=(random.choice(list(chains.keys()))) #select a random key from our dictionary to use as our initial bigram
     while not first_ngram[0][0].isupper():
-        first_ngram=random.choice(list(chains.keys())) #select a random key from our dictionary to use as our initial bigram
+        first_ngram=random.choice(list(chains.keys())) 
 
     words = [] #this empty list will eventually be filled with our generated text!
 
     for i in range(len(first_ngram)):
         words.append(first_ngram[i])
+
+    # alternative to for loop on line above
+    # words = list(first_ngram)
+
+
+
     
     next_ngram = first_ngram #sets up a "next_bigram"
     while True: #this loops until it breaks
         try: #this checks for a key error 
-            next_word = random.choice(chains[next_ngram]) #chooses a 
+            next_word = random.choice(chains[next_ngram]) #
             words.append(next_word)
             #print(next_word[-1] in punctuation, next_word[-1])
-            if next_word[-1] in ".?!":
+            if next_word[-1] in punctuation:
                # print("TEST")
                 words.append("\n")
             #print(next_word)
